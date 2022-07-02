@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/thedevsaddam/renderer"
@@ -41,4 +42,10 @@ func init() {
 	checkErr(err)
 	sess.SetMode(mgo.Monotonic, true)
 	db = sess.DB(dbName)
+}
+
+func checkErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
