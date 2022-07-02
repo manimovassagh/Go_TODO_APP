@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"os"
@@ -11,7 +10,6 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/thedevsaddam/renderer"
-	"golang.org/x/tools/go/analysis/passes/nilfunc"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -68,18 +66,31 @@ func fetchTodos(w http.ResponseWriter,r http.Request){
 	}
 
 	todoList:=[]todo{}
-	
-	for_,t := range todos{
-	todtodoList=append(todtodoList,todo{
+
+	for _,t := range todos{
+
+		todoList = append(todoList,todo{
 		ID:t.ID.Hex(),
-		Title:t.title,
-		completed:t.completed,
-		createdAt:t.createdAt
+		Title: t.Title,
+		Completed: t.Completed,
+		CreatedAt: t.CreatedAt,
 	})
 	}
+	rnd.JSON(w ,http.StatusOK,renderer.M{
+		"data":todoList,
+	})
 
 
 }
+
+
+
+
+func cretaeToDo(w http.ResponseWriter,r *http.Request)  {
+	var t todo
+
+}
+
 
 func main() { 
 	//optional
@@ -104,13 +115,13 @@ func main() {
 		}
 	}()
 
-	<-stopstopChan
-	log.Println("shutting down server...")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	srv.Shutdown(ctx)
-	defer cancel (
-	log.Println("server gracefully stopped")
-	)
+	// <-stopstopChan
+	// log.Println("shutting down server...")
+	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	// srv.Shutdown(ctx)
+	// defer cancel (
+	// log.Println("server gracefully stopped")
+	// )
 
 }
 
