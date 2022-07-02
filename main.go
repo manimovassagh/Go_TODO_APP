@@ -1,20 +1,13 @@
 package main
 
-import(
-	"context"
-	"encoding/json"
-	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"strings"
-	"time"
-
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+import (
 	"github.com/thedevsaddam/renderer"
 	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
+var rnd *renderer.Render
+var db *mgo.Database
 
+const (
+	hostname string = "localhost:27017"
+)
