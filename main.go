@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/thedevsaddam/renderer"
+	"golang.org/x/tools/go/analysis/passes/nilfunc"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -50,7 +51,37 @@ func init() {
 	db = sess.DB(dbName)
 }
 
-func main() {
+func homeHandler(w http.ResponseWriter,r *http.Request)  {
+	err:=rnd.Template(w, http.StatusOK,[]string{"static/home.tpl"},nil)
+	checkErr(err)
+}
+
+func fetchTodos(w http.ResponseWriter,r http.Request){
+	todos:= []todoModel{}
+	if err:=db.C(collectionName).Find(bson.M{}).All(&todos);err!=nil{
+		rnd.JSON(w,http.StatusProcessing,renderer.M{
+			"message":"Failed to fetch todos",
+			"error":err,
+		
+		})
+		return
+	}
+
+	todoList:=[]todo{}
+	
+	for_,t := range todos{
+	todtodoList=append(todtodoList,todo{
+		ID:t.ID.Hex(),
+		Title:t.title,
+		completed:t.completed,
+		createdAt:t.createdAt
+	})
+	}
+
+
+}
+
+func main() { 
 	//optional
 	stopChan := make(chan os.Signal)
 	signal.Notify(stopChan, os.Interrupt)
@@ -78,7 +109,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	srv.Shutdown(ctx)
 	defer cancel (
-log.Println("server gracefully stopped")
+	log.Println("server gracefully stopped")
 	)
 
 }
