@@ -9,5 +9,8 @@ var rnd *renderer.Render
 var db *mgo.Database
 
 const (
-	hostname string = "localhost:27017"
+	hostName       string = "localhost:27017"
+	dbName         string = "demo_todo"
+	collectionName string = "todos"
+	port           string = ":9000"
 )
