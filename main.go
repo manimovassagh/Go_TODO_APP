@@ -1,10 +1,11 @@
 package main
 
 import (
+	"time"
+
 	"github.com/thedevsaddam/renderer"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"time"
 )
 
 var rnd *renderer.Render
@@ -26,5 +27,18 @@ type (
 		completed bool          `bson:"completed"`
 		createdAt time.Time     `bson:"created_at"`
 	}
-	
+	todo struct {
+		ID        string    `json:"id"`
+		title     string    `json:"title"`
+		completed string    `json:"completed"`
+		createdAt time.Time `json:"created_at"`
+	}
 )
+
+func init() {
+	rnd = renderer.New()
+	sess, err := mgo.Dial(hostName)
+	checkErr(err)
+	sess.SetMode(mgo.Monotonic, true)
+	db = sess.DB(dbName)
+}
