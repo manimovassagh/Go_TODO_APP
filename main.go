@@ -44,6 +44,11 @@ func init() {
 	db = sess.DB(dbName)
 }
 
+
+func main()  {
+	r:=chi.NewRouter()
+}
+
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
